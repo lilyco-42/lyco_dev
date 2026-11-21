@@ -69,6 +69,15 @@ description: "Production-grade Rust & full-stack engineering workflow (/dev) pri
 - **不盲目造轮子，也不盲目堆依赖**：假设世界上有同样需求的开发者，**优先到 `https://lib.rs` 检索成熟 Rust crate**（详见 `resources/rust-ecosystem-reuse.md`）。
 - **选型标准**：综合 **下载量 + 维护活跃度 + 需求匹配度 + 许可证（MIT/Apache-2.0 优先）** 最小化引入；**优先选择 `no_std` 友好、零重依赖的 crate**。
 
+### 7. 跨平台运维与测试铁律（Cross-Platform Ops & Testing Integrity）
+- **跨平台全端构建**（详见 `resources/cross-platform-and-testing.md`）：
+  - 本地交叉编译优先使用 **`zig` + `cargo-zigbuild`**。
+  - 使用 **GitHub Actions** 自动化构建全平台产物：**Windows / Linux / macOS / Android / iOS / HarmonyOS / Web (WASM) / `no_std` MCU**。
+- **测试铁律（绝不造假过测）**：
+  - 先评估并确定需求与预期效果，再写充分覆盖正常与异常边界的测试。
+  - **严禁通过修改测试、削弱断言来绕过失败**；仅在**确认需求变更**后才允许同步修改测试。
+  - 上线前**先备份真实环境数据**，尽量在贴近生产的真实环境中完成端到端实测验证，不停留在纯 Mock。
+
 ---
 
 ## Structural Flow (开发执行闭环)
@@ -87,9 +96,11 @@ description: "Production-grade Rust & full-stack engineering workflow (/dev) pri
 3. **配置零硬编码**：发现写死在代码中的业务阈值、密钥或 i18n 文案，立即抽离到 `.toml`。
 4. **后端零 UI**：严禁在 Rust 后端代码中硬拼大段 HTML/CSS 页面作为长期方案（前后端必须解耦）。
 5. **许可证红线**：商业闭源项目引入任何 crate 或上游组件前必须核验协议，拒绝 AGPL/GPL 传染。
+6. **测试零妥协**：严禁修改测试来绕过失败（除非需求经明确确认变更）；发布前必须备份真实数据并在真实/准生产环境实测。
 
 ## References
 - 四原则与目录/配置/Git 检查清单：`resources/rule-of-four.md`
 - `lib.rs` 与 `no_std` 生态选型及 Cargo 极速编译指南：`resources/rust-ecosystem-reuse.md`
 - ROI 评估矩阵、零信任边界与异常 Fallback 规范：`resources/roi-and-security.md`
+- 跨平台 `zig`/`cargo-zigbuild`、GitHub Actions 全平台矩阵与测试铁律：`resources/cross-platform-and-testing.md`
 - 背景与设计哲学：`docs/principles.md`

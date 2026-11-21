@@ -15,6 +15,7 @@
 4. **ROI（收益优先排序）**：① 商业价值 > ② 社会效益与贡献 > ③ 开发敏捷度；**优先交付 MVP Demo 校对需求**。
 5. **安全性（最小攻击面）**：零信任校验、`deny_unknown_fields`、防批量刷号与双钱包硬隔离，规避 AGPL/GPL 商业协议风险。
 6. **生态复用（`lib.rs` & `no_std` 优先）**：优先检索 [lib.rs](https://lib.rs)，按下载量、匹配度与许可证最小化引入 crate，`no_std` 优先。
+7. **跨平台运维与测试铁律**：本地交叉编译用 `zig` + `cargo-zigbuild`，GitHub Actions 全平台矩阵覆盖 Windows / Linux / macOS / Android / iOS / HarmonyOS / Web (WASM) / `no_std` MCU；测试锚定预期需求，严禁篡改测试绕过失败，备份真实数据后在生产级环境充分实测。
 
 ## 一键安装
 
@@ -46,5 +47,6 @@ lyco_dev/
 └── resources/
     ├── rule-of-four.md              # 四原则检查清单与 TOML 外置规范
     ├── rust-ecosystem-reuse.md      # lib.rs / no_std 选型与极速增量编译指南
-    └── roi-and-security.md          # ROI 决策矩阵、零信任边界与异常 Fallback
+    ├── roi-and-security.md          # ROI 决策矩阵、零信任边界与异常 Fallback
+    └── cross-platform-and-testing.md # zig/cargo-zigbuild、GitHub Actions 全平台构建与测试铁律
 ```
