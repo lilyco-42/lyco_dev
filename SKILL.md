@@ -9,7 +9,7 @@ description: "Production-grade Rust & full-stack engineering workflow (/dev) pri
 ## Scheduling
 
 ### Goal
-以 **稳定性 > 可维护性 > 模块化 > ROI > 安全性 > 生态复用** 为最高准则，约束从架构设计、选型、编码到提交的每一步，打造**零信任类型安全、商业版权干净、极易维护、可快速迭代 MVP** 的生产级软件（核心优先 Rust + 现代组件化前端）。
+以 **稳定性 · 可维护性 · 模块化 · ROI · 安全性 · 生态复用**（六大维度**并列同等重要**，而非前后次序关系）为最高准则，约束从架构设计、选型、编码到提交的每一步，打造**零信任类型安全、商业版权干净、极易维护、充分复用成熟生态、可快速迭代 MVP** 的生产级软件（核心优先 Rust + 现代组件化前端）。
 
 > **起源教训**：曾因依赖外部 AGPL-3.0 协议且存在上游漏洞的中转项目（如 `new-api`），遭遇批量注册刷号与 Token 窃取及不可闭源商用的风险。自此确立：**核心商业系统必须自主可控、零信任强类型边界、可商用授权、最小攻击面**。
 
@@ -65,8 +65,8 @@ description: "Production-grade Rust & full-stack engineering workflow (/dev) pri
 - **最小攻击面**：后端仅接受强类型白名单输入，拒绝未声明字段（`#[serde(deny_unknown_fields)]`）。
 - **防刷与账本风控**：高价值/不可复制资源（AI 算力、代理专线、VIP 订阅）实行**双钱包硬隔离**（实付余额 vs 赠送/签到积分），严防批量注册与免费积分套利；裂变返佣仅在实付订单结算后触发并支持退款冲正。
 
-### 6. 生态复用（Ecosystem Reuse — `lib.rs` & `no_std` First）
-- **不盲目造轮子，也不盲目堆依赖**：假设世界上有同样需求的开发者，**优先到 `https://lib.rs` 检索成熟 Rust crate**（详见 `resources/rust-ecosystem-reuse.md`）。
+### 6. 生态复用（Ecosystem Reuse — 与稳定/安全并列的一等原则，`lib.rs` & `no_std` 优先）
+- **禁止重造已有成熟轮子**：例如 HTTP 限流直接用 **`tower` + `tower_governor` / `governor`** 中间件，压缩/CORS/静态托管用 **`tower-http`**，不要手写简陋的 `VecDeque` 限流器；假设世界上有同样需求的开发者，**优先到 `https://lib.rs` 检索成熟 Rust crate**（详见 `resources/rust-ecosystem-reuse.md`）。
 - **选型标准**：综合 **下载量 + 维护活跃度 + 需求匹配度 + 许可证（MIT/Apache-2.0 优先）** 最小化引入；**优先选择 `no_std` 友好、零重依赖的 crate**。
 
 ### 7. 跨平台运维与测试铁律（Cross-Platform Ops & Testing Integrity）

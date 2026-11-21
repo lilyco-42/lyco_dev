@@ -1,6 +1,6 @@
 # lyco_dev (`/dev`) — 商业级稳健软件工程技能
 
-以 **稳定性 > 可维护性 > 模块化 > ROI > 安全性 > 生态复用** 为核心优先级的全栈 / Rust 软件工程 Agent Skill（触发词：`/dev` 或 `lyco_dev`）。
+以 **稳定性 · 可维护性 · 模块化 · ROI · 安全性 · 生态复用**（六大维度**并列同等重要**）为核心准则的全栈 / Rust 软件工程 Agent Skill（触发词：`/dev` 或 `lyco_dev`）。
 
 符合 [Agent Skills](https://agentskills.io) 开放标准（`SKILL.md` + frontmatter），与 [lyco-skill](https://github.com/lilyco-42/lyco-skill) 互补：**`/lyco` 负责开工前预研与决策，`/dev` (`lyco_dev`) 负责开工后的稳健工程落地**。
 
