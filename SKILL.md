@@ -103,6 +103,7 @@ description: "Production-grade Rust & full-stack engineering workflow (/dev) pri
 ## References
 - 四原则与目录/配置/Git 检查清单：`resources/rule-of-four.md`
 - `lib.rs` 与 `no_std` 生态选型及 Cargo 极速编译指南：`resources/rust-ecosystem-reuse.md`
+- 前端开发指南与成熟生态选型（`@base-ui/react`、`@lobehub/icons`、`@tanstack/react-table`、`cmdk`、DSH）：`resources/frontend-ecosystem.md`
 - ROI 评估矩阵、零信任边界与异常 Fallback 规范：`resources/roi-and-security.md`
 - 跨平台 `zig`/`cargo-zigbuild`、GitHub Actions 全平台矩阵与测试铁律：`resources/cross-platform-and-testing.md`
 - 背景与设计哲学：`docs/principles.md`
