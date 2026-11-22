@@ -4,9 +4,10 @@
 
 ---
 
-## 1. 宿主优先策略（AI / Agent 工作台）
+## 1. 宿主优先与官方模板起手（禁止从零手搓 CSS）
 
-- **DSH（DeepSeek 开源网页 UI & Harness）**：涉及 AI 多轮对话、Agent 工具调用与流式工作台时，优先将业务后端封装为 MCP 服务接入 DSH（`@deepseek-ai/dsh-mcp-client`），直接复用成熟响应式布局与插件体系，避免自研聊天页面出现排版与流式交互缺陷。
+- **AI / Agent 工作台优先接入 DSH（DeepSeek 开源网页 UI & Harness）**：涉及 AI 多轮对话、Agent 工具调用与流式工作台时，优先将业务后端封装为 MCP 服务接入 DSH（`@deepseek-ai/dsh-mcp-client`），直接复用成熟响应式布局与插件体系。
+- **独立商业 Web 控制台必须基于官方模板起步**：新建任何前端应用时，**禁止从零 `create-vite` 手写 CSS 骨架**，直接复制 **`/home/lilyco/code/lilyco-template/web/`**（已预装 `lycodl` 同款 `Tailwind v4 + shadcn oklch 令牌 + Geist 字体 + sonner + tw-animate-css` 与 `new-api` 同款 `@base-ui/react + @lobehub/icons + @tanstack/react-table + cmdk`），确保每个新项目一创建即保持一致的旗舰级视觉质感。
 
 ---
 

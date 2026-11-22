@@ -55,7 +55,7 @@ description: "Production-grade Rust & full-stack engineering workflow (/dev) pri
 - **Cargo Workspace 细粒度拆分**：将纯领域核心（`*-core`）、协议适配、存储层、上游客户端与薄 HTTP 路由层分离，隔离重依赖，确保日常增量编译控制在 **2–5 秒**。
 - **前端组件化与成熟宿主优先**：
   - **优先参考并复用商业化成熟方案实现，拒绝闭门造车手搓简陋 MVP**：动工前先对标同领域成熟商业产品的布局、信息架构、权限体系（如访客 / 普通用户 / VIP / 管理员分级）与完整交互体验，严禁用残缺的“玩具 Demo”或假交互（如非真流式、无引导页面）充当可用版本。
-  - **成熟 UI 宿主与组件生态**：AI / Agent 类交互工作台优先接入 **DSH（DeepSeek 开源网页 UI & Harness）** 复用其成熟布局与插件体系；独立 Web 控制台必须复用成熟前端组件与可视化生态（如 `shadcn/ui`、Semi Design 风格设计体系、`react-markdown`、`recharts` 等），杜绝手搓粗糙布局。
+  - **成熟 UI 宿主与官方起手模板**：AI / Agent 类交互工作台优先接入 **DSH（DeepSeek 开源网页 UI & Harness）** 复用其成熟布局与插件体系；独立 Web 控制台必须基于 **`lilyco-template/web`** 官方融合模板起步（预装 `lycodl` 视觉底座 + `new-api` 前端生态：`Tailwind v4`、`shadcn` `oklch`、`Geist`、`@base-ui/react`、`@lobehub/icons`、`@tanstack/react-table`、`cmdk`、`sonner`），杜绝从零手搓粗糙布局。
 
 ### 4. ROI（Commercial-First Decision Order）
 每次技术/产品决策按以下顺序权衡收益（详见 `resources/roi-and-security.md`）：
