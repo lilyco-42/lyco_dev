@@ -53,20 +53,22 @@ description: "Production-grade Rust & full-stack engineering workflow (/dev) pri
   - **后端**：只负责数据处理、业务规则、持久化与强类型 API；**绝不在后端拼接或绘制 UI**。
   - **前端**：只负责数据展示、交互与基础输入消毒；严格按后端 OpenAPI/类型契约做类型转换与 XSS/注入防护，禁止向后端随意传非约定类型。
 - **Cargo Workspace 细粒度拆分**：将纯领域核心（`*-core`）、协议适配、存储层、上游客户端与薄 HTTP 路由层分离，隔离重依赖，确保日常增量编译控制在 **2–5 秒**。
-- **前端组件化**：复用成熟无障碍组件生态（如 `shadcn/ui` + Tailwind + TypeScript 强类型）。
+- **前端组件化与成熟宿主优先**：
+  - **优先参考并复用商业化成熟方案实现，拒绝闭门造车手搓简陋 MVP**：动工前先对标同领域成熟商业产品的布局、信息架构、权限体系（如访客 / 普通用户 / VIP / 管理员分级）与完整交互体验，严禁用残缺的“玩具 Demo”或假交互（如非真流式、无引导页面）充当可用版本。
+  - **成熟 UI 宿主与组件生态**：AI / Agent 类交互工作台优先接入 **DSH（DeepSeek 开源网页 UI & Harness）** 复用其成熟布局与插件体系；独立 Web 控制台必须复用成熟前端组件与可视化生态（如 `shadcn/ui`、Semi Design 风格设计体系、`react-markdown`、`recharts` 等），杜绝手搓粗糙布局。
 
 ### 4. ROI（Commercial-First Decision Order）
 每次技术/产品决策按以下顺序权衡收益（详见 `resources/roi-and-security.md`）：
 1. **商业价值（第一优先）**：直接服务营收闭环、防资金漏洞、商业协议干净（拒绝 AGPL/GPL 传染风险）。
 2. **社会效益与贡献（第二优先）**：沉淀可复用开源组件/Skill/文档，形成长期复利。
-3. **开发敏捷度（第三优先）**：**优先交付最小可行 MVP Demo**，尽早给用户试用校对真实需求，再按反馈迭代，拒绝脱离需求的过度抽象。
+3. **开发敏捷度（第三优先）**：**优先参考并复用商业化成熟方案实现**，直接对齐成熟产品的完整可用体验与工程水准，**不要自己从零闷头写残缺的简陋 MVP**。
 
 ### 5. 安全性（Security & Anti-Abuse）
 - **最小攻击面**：后端仅接受强类型白名单输入，拒绝未声明字段（`#[serde(deny_unknown_fields)]`）。
 - **防刷与账本风控**：高价值/不可复制资源（AI 算力、代理专线、VIP 订阅）实行**双钱包硬隔离**（实付余额 vs 赠送/签到积分），严防批量注册与免费积分套利；裂变返佣仅在实付订单结算后触发并支持退款冲正。
 
 ### 6. 生态复用（Ecosystem Reuse — 与稳定/安全并列的一等原则，`lib.rs` & `no_std` 优先）
-- **禁止重造已有成熟轮子**：例如 HTTP 限流直接用 **`tower` + `tower_governor` / `governor`** 中间件，压缩/CORS/静态托管用 **`tower-http`**，不要手写简陋的 `VecDeque` 限流器；假设世界上有同样需求的开发者，**优先到 `https://lib.rs` 检索成熟 Rust crate**（详见 `resources/rust-ecosystem-reuse.md`）。
+- **禁止重造已有成熟轮子，优先对标成熟开源实现**：动工前先调研同领域高星开源项目架构与 **`https://lib.rs` / npm 头部成熟生态库**（如 `tower` / `tower_governor` / `tower-http`、标准流式解析与可视化组件库等），直接借鉴并复用成熟工程范式，杜绝手写简陋替代品。
 - **选型标准**：综合 **下载量 + 维护活跃度 + 需求匹配度 + 许可证（MIT/Apache-2.0 优先）** 最小化引入；**优先选择 `no_std` 友好、零重依赖的 crate**。
 
 ### 7. 跨平台运维与测试铁律（Cross-Platform Ops & Testing Integrity）
