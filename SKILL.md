@@ -1,7 +1,6 @@
 ---
 name: lyco_dev
-agent_created: true
-description: "Production-grade Rust & full-stack engineering workflow (/dev) prioritizing Stability, Maintainability, Modularity, ROI, Security, and Ecosystem Reuse. Enforces Zero-Trust typed APIs (no type erasure, strict frontend-backend contracts), graceful fallback on power-loss/network-drop, the Rule of 4 (<=4 struct fields, <=4 function params, <=4 nesting depth, <=4 subdirs/folder, <=4 dir depth), externalized TOML config & i18n, backend-no-UI separation, lib.rs & no_std-first minimal crate reuse, and commercial-first MVP ROI. Trigger with /dev, lyco_dev, or when architecting, coding, or reviewing Rust/full-stack commercial software."
+description: "Production-grade Rust & full-stack engineering workflow (/dev) built on six parallel pillars: stability, maintainability, modularity, ROI, security, ecosystem reuse. Enforces zero-trust typed APIs, graceful fallback, the Rule of 4, TOML-externalized config/i18n, backend-no-UI, lib.rs/no_std-first reuse. Trigger with /dev, lyco_dev, or when architecting, coding, or reviewing Rust/full-stack software."
 ---
 
 # lyco_dev (`/dev`) — 商业级稳健软件工程规范
@@ -40,7 +39,7 @@ description: "Production-grade Rust & full-stack engineering workflow (/dev) pri
 
 ### 2. 可维护性（Maintainability — 「四原则」+ 配置外置 + 文档提交）
 严格执行 **「四原则（Rule of 4）」**（详见 `resources/rule-of-four.md`）：
-- **类型 ≤ 4 成员变量**：单个 `struct` / 类型不超过 **4 个字段**；超出时拆分为语义清晰的子值对象组合。
+- **类型 ≤ 4 成员变量（领域类型默认）**：领域模型 `struct` 默认不超过 **4 个字段**，超出时拆分为语义清晰的子值对象组合；DTO / 配置 / FFI / serde 镜像类型可例外，但须一行注释说明理由，**禁止为凑数字硬拆**。
 - **函数 ≤ 4 参数**：单个函数参数不超过 **4 个**；超出时封装为强类型 `Input` / `Context` 结构体。
 - **逻辑 ≤ 4 层嵌套**：函数内控制流嵌套不超过 **4 层**；用 early return / `?` 卫语句展平。
 - **禁止随意跳转分支**：除错误处理（`?` / 卫语句提前返回）外，禁止复杂多出口跳转与隐式控制流。
@@ -52,10 +51,12 @@ description: "Production-grade Rust & full-stack engineering workflow (/dev) pri
 - **前后端职责硬隔离**：
   - **后端**：只负责数据处理、业务规则、持久化与强类型 API；**绝不在后端拼接或绘制 UI**。
   - **前端**：只负责数据展示、交互与基础输入消毒；严格按后端 OpenAPI/类型契约做类型转换与 XSS/注入防护，禁止向后端随意传非约定类型。
-- **Cargo Workspace 细粒度拆分**：将纯领域核心（`*-core`）、协议适配、存储层、上游客户端与薄 HTTP 路由层分离，隔离重依赖，确保日常增量编译控制在 **2–5 秒**。
+- **Cargo Workspace 细粒度拆分 + 多二进制独立部署（防单点重启）**：
+  - 将纯领域核心（`*-core`）、协议适配、存储层、上游客户端与薄 HTTP 路由层分离，隔离重依赖，确保日常增量编译控制在 **2–5 秒**。
+  - **多二进制职责隔离**：生产级系统禁止把所有业务揉成单一巨石二进制；按变更频率与故障域拆分为多个独立可执行文件（如 `relay-gateway` 转发数据面、`relay-admin` 管理/同步控制面、`relay-billing` 计费账本、`relay-worker` 异步巡检/生图/浏览器任务），通过本地反向代理（如 Pingap）按路径路由、各自独立 systemd 进程 + `with_graceful_shutdown()` 优雅摘流，**改一个模块只编译并重启对应二进制，绝不导致全站中断或全量慢编译**。
 - **前端组件化与成熟宿主优先**：
   - **优先参考并复用商业化成熟方案实现，拒绝闭门造车手搓简陋 MVP**：动工前先对标同领域成熟商业产品的布局、信息架构、权限体系（如访客 / 普通用户 / VIP / 管理员分级）与完整交互体验，严禁用残缺的“玩具 Demo”或假交互（如非真流式、无引导页面）充当可用版本。
-  - **成熟 UI 宿主与官方起手模板**：AI / Agent 类交互工作台优先接入 **DSH（DeepSeek 开源网页 UI & Harness）** 复用其成熟布局与插件体系；独立 Web 控制台必须基于 **`lilyco-template/web`** 官方融合模板起步（预装 `lycodl` 视觉底座 + `new-api` 前端生态：`Tailwind v4`、`shadcn` `oklch`、`Geist`、`@base-ui/react`、`@lobehub/icons`、`@tanstack/react-table`、`cmdk`、`sonner`），杜绝从零手搓粗糙布局。
+  - **成熟 UI 宿主与模板起步**：AI / Agent 工作台优先接入成熟开源 UI 宿主（如经 MCP 接入），独立 Web 控制台基于成熟 starter（Tailwind + `shadcn/ui` 等，选型见 `resources/frontend-ecosystem.md`）起步，杜绝从零手搓粗糙布局；团队专用模板/宿主见 `resources/lilyco-stack.md`（可选，存在时优先使用）。
 
 ### 4. ROI（Commercial-First Decision Order）
 每次技术/产品决策按以下顺序权衡收益（详见 `resources/roi-and-security.md`）：
@@ -94,7 +95,7 @@ description: "Production-grade Rust & full-stack engineering workflow (/dev) pri
 
 ## Guardrails
 1. **零容忍 `.unwrap()` / `any`**：核心链路禁止未受控 panic 与类型擦除。
-2. **超 4 即拆**：发现结构体 >4 字段、函数 >4 参数或 >4 层嵌套、目录 >4 子目录，必须立即重构拆分。
+2. **超 4 即审**：发现结构体 >4 字段、函数 >4 参数或 >4 层嵌套、目录 >4 子目录，默认重构拆分；属于 DTO/配置/FFI 等合理例外时必须写明理由，不得机械拆分。
 3. **配置零硬编码**：发现写死在代码中的业务阈值、密钥或 i18n 文案，立即抽离到 `.toml`。
 4. **后端零 UI**：严禁在 Rust 后端代码中硬拼大段 HTML/CSS 页面作为长期方案（前后端必须解耦）。
 5. **许可证红线**：商业闭源项目引入任何 crate 或上游组件前必须核验协议，拒绝 AGPL/GPL 传染。
@@ -103,7 +104,8 @@ description: "Production-grade Rust & full-stack engineering workflow (/dev) pri
 ## References
 - 四原则与目录/配置/Git 检查清单：`resources/rule-of-four.md`
 - `lib.rs` 与 `no_std` 生态选型及 Cargo 极速编译指南：`resources/rust-ecosystem-reuse.md`
-- 前端开发指南与成熟生态选型（`@base-ui/react`、`@lobehub/icons`、`@tanstack/react-table`、`cmdk`、DSH）：`resources/frontend-ecosystem.md`
+- 前端开发指南与成熟生态选型（`@base-ui/react`、`@lobehub/icons`、`@tanstack/react-table`、`cmdk`）：`resources/frontend-ecosystem.md`
+- 可选：lilyco 生态专用栈（`lilyco-template/web`、DSH、`lilyco-dylib`、`kuake` 缓存，存在时优先使用）：`resources/lilyco-stack.md`
 - ROI 评估矩阵、零信任边界与异常 Fallback 规范：`resources/roi-and-security.md`
 - 跨平台 `zig`/`cargo-zigbuild`、GitHub Actions 全平台矩阵与测试铁律：`resources/cross-platform-and-testing.md`
 - 背景与设计哲学：`docs/principles.md`

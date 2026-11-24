@@ -4,10 +4,11 @@
 
 ---
 
-## 1. 宿主优先与官方模板起手（禁止从零手搓 CSS）
+## 1. 宿主优先与模板起手（禁止从零手搓 CSS）
 
-- **AI / Agent 工作台优先接入 DSH（DeepSeek 开源网页 UI & Harness）**：涉及 AI 多轮对话、Agent 工具调用与流式工作台时，优先将业务后端封装为 MCP 服务接入 DSH（`@deepseek-ai/dsh-mcp-client`），直接复用成熟响应式布局与插件体系。
-- **独立商业 Web 控制台必须基于官方模板起步**：新建任何前端应用时，**禁止从零 `create-vite` 手写 CSS 骨架**，直接复制 **`/home/lilyco/code/lilyco-template/web/`**（已预装 `lycodl` 同款 `Tailwind v4 + shadcn oklch 令牌 + Geist 字体 + sonner + tw-animate-css` 与 `new-api` 同款 `@base-ui/react + @lobehub/icons + @tanstack/react-table + cmdk`），确保每个新项目一创建即保持一致的旗舰级视觉质感。
+- **AI / Agent 工作台优先接入成熟开源 UI 宿主**：涉及 AI 多轮对话、Agent 工具调用与流式工作台时，优先将业务后端封装为 MCP 等标准协议服务接入成熟宿主，直接复用其响应式布局与插件体系。
+- **独立商业 Web 控制台基于成熟模板起步**：**禁止从零手写 CSS 骨架**，从团队统一模板或成熟开源 starter（`Tailwind v4` + `shadcn/ui` 令牌 + 下表生态）起步，确保每个新项目一创建即保持一致的视觉质感。
+- **可选专用栈**：若环境中存在 lilyco 生态模板 / DSH 宿主，按 `lilyco-stack.md` 优先使用；不存在时按本文件通用选型执行。
 
 ---
 
@@ -28,7 +29,7 @@
 
 ## 3. 布局与视觉验收铁律
 
-1. **视觉验收必须实机截图 + 识图自查**：每次重大 UI 变更后，必须在真实浏览器（如 `ego-browser` / Chromium）对核心页面截图并识图检查，重点排查：
+1. **视觉验收必须实机截图 + 识图自查**：每次重大 UI 变更后，必须在真实浏览器（如 Playwright / Chromium）对核心页面截图并识图检查，重点排查：
    - 按钮是否异常竖排折行（全局按钮统一 `white-space: nowrap; flex-shrink: 0;`）；
    - 双栏/工作台布局是否等高填满视口（如 `height: calc(100vh - <topbar>)`）且小屏自动折叠；
    - 明暗主题（Light / Dark）对比度、表格溢出滚动与空态引导是否清晰。
