@@ -8,7 +8,7 @@
 
 1. **稳定性（零信任强类型 + 异常 Fallback）**：后端只接收强类型 DTO、禁止类型擦除；面对服务器断电、用户断网、上游异常提供显式 Fallback 与结构化详细报错，绝不随意崩溃。
 2. **可维护性（四原则 + TOML 配置外置 + 及时提交文档）**：
-   - 单类型 ≤ **4** 成员变量、单函数 ≤ **4** 参数、控制流 ≤ **4** 层嵌套（除错误处理禁止随意跳转）。
+   - 领域类型默认 ≤ **4** 成员变量（DTO/配置/FFI 可注释说明后例外，禁止为凑数硬拆）、单函数 ≤ **4** 参数、控制流 ≤ **4** 层嵌套（除错误处理禁止随意跳转）。
    - 单目录 ≤ **4** 子目录、目录嵌套 ≤ **4** 层；按前端 / 后端 / 数据库 / 代理端多维视角分类。
    - 业务配置与 i18n 全部抽离为 `.toml` 文件，不写死常量；每次原子变更及时 `git commit` 并沉淀目标与实现原理文档。
 3. **模块化（前后端硬边界）**：后端只处理数据与强类型 API，不绘制 UI；前端负责展示、简单消毒与按契约类型转换，复用 `shadcn/ui` 等成熟生态组件。
@@ -42,11 +42,14 @@ lyco_dev/
 ├── README.md                        # 项目说明与安装指南
 ├── LICENSE                          # MIT License
 ├── install.sh / install.ps1         # 跨平台一键安装脚本
+├── .github/workflows/lint.yml       # shellcheck + SKILL.md 校验
 ├── docs/
 │   └── principles.md                # 工程哲学与商业化实战教训
 └── resources/
-    ├── rule-of-four.md              # 四原则检查清单与 TOML 外置规范
+    ├── rule-of-four.md              # 四原则检查清单、例外规则与 TOML 外置规范
     ├── rust-ecosystem-reuse.md      # lib.rs / no_std 选型与极速增量编译指南
+    ├── frontend-ecosystem.md        # 前端成熟生态选型（shadcn/ui、TanStack、cmdk 等）
     ├── roi-and-security.md          # ROI 决策矩阵、零信任边界与异常 Fallback
-    └── cross-platform-and-testing.md # zig/cargo-zigbuild、GitHub Actions 全平台构建与测试铁律
+    ├── cross-platform-and-testing.md # zig/cargo-zigbuild、GitHub Actions 全平台构建与测试铁律
+    └── lilyco-stack.md              # 可选：lilyco 生态专用栈（存在时优先，缺失时回退通用方案）
 ```
