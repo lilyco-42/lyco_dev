@@ -93,6 +93,24 @@ description: "Production-grade Rust & full-stack engineering workflow (/dev) bui
 
 ---
 
+## Branch & Release Policy（分支与发布策略）
+
+长期分支**总数 ≤ 4**，默认只有以下角色；没有实际需求不要建空分支：
+
+| 分支 | 角色 | 规则 |
+|---|---|---|
+| `main` | 生产 / 稳定 | 只接受通过 CI 的 PR；禁止直接推送 |
+| `dev` | 集成分支 | 功能分支从这里切出、合回；日常开发基线 |
+| `release` | 发布线 | 按版本从 `dev` 切出；发布后合回 `main` 并删除 |
+| `ci-cd` | 流水线 / 自动化 | 仅当流水线需要独立分支时存在；优先用 workflow 文件 |
+
+- `feat/*`、`fix/*`、`chore/*` 是**短生命周期分支**：一个任务一支，从 `dev` 切出，PR 合并后 **24 小时内删除**。
+- 合并或迁移完成后立即删除远端分支；不得把实验、worktree、stash 当成长期分支。
+- 远端分支超过 4 个视为流程违规：先给待删分支打 `archive/<name>-YYYYMMDD` tag，再删除分支。
+- 发布用 tag（`vX.Y.Z`）固化版本，不要长期保留 release 分支。
+
+---
+
 ## Guardrails
 1. **零容忍 `.unwrap()` / `any`**：核心链路禁止未受控 panic 与类型擦除。
 2. **超 4 即审**：发现结构体 >4 字段、函数 >4 参数或 >4 层嵌套、目录 >4 子目录，默认重构拆分；属于 DTO/配置/FFI 等合理例外时必须写明理由，不得机械拆分。
